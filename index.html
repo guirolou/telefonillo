@@ -30,6 +30,7 @@
 						<td><input class="form-control" ng-model="contact.phone"></td>
 						<td><input class="form-control" ng-model="contact.email"></td>
 						<td><button class="btn btn-primary glyphicon glyphicon-plus" ng-click="addContact()"></button></td>
+						<td><button class="btn btn-info glyhicon glyphicon-save" ng-click="updateContact()"></button></td>
 					</tr>
 					<tr ng-repeat="contact in contactsList">
 						<td>{{contact.name}}</td>

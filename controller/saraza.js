@@ -31,6 +31,17 @@ myApp.controller('appControl', ['$scope', '$http', function($scope, $http){
 
 	$scope.editContact = function(id) {
 		console.log(id);
+		$http.get('/contactsList/' + id).success(function(response){
+			console.log(response);
+			$scope.contact = response;
+		})
+	}
+
+	$scope.updateContact = function(){
+		console.log($scope.contact._id);
+		$http.put('/contactsList/' + $scope.contact._id, $scope.contact).success(function(response){
+			refresh();
+		})
 	}
 
 }]);
