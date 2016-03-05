@@ -1,0 +1,20 @@
+<div class="container">
+	<h1>Nueva Propuesta</h1>
+	<form role="form" ng-controller="newProposal">
+		<div class="form-group" >
+			<label for="title">Titulo</label>
+			<input type="title" class="form-control" placeholder="Agregue un titulo" ng-model="proposal.title">
+		</div>
+		<div class="form-group">
+			<label for="description">Descripcion</label>
+			<textarea type="description" class="form-control" placeholder="Agregue una descripcion" ng-model="proposal.description"></textarea>
+		</div>
+		<div class="form-inline">
+			<div class="checkbox">
+				<label><input type="checkbox" ng-model="proposal.isUrgent">Es Urgente</label>	
+				<label><input type="checkbox" ng-model="proposal.isImportant">Es Importante</label>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary" ng-click="addProposal()">Guardar</button>
+	</form>
+</div>

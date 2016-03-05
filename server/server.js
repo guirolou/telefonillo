@@ -2,10 +2,28 @@ var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
 var bodyParser = require('body-parser');
-var db = mongojs('telefonillo', ['contacts']);
+var db = mongojs('telefonillo', ['proposals', 'people', 'consortiums']);
 
 app.use(express.static(__dirname + '/..'));
 app.use(bodyParser.json());
+
+app.post('/proposal', function(req, res){
+	console.log('I receive a POST request');
+	
+	var newProposal = req.body;
+	newProposal.consortium_id = mongojs.ObjectId(req.body.consortium_id);
+	newProposal.people_id = mongojs.ObjectId(req.body.people_id);
+	newProposal.votes[0].people_id = mongojs.ObjectId(req.body.votes[0].people_id);
+
+	db.proposals.insert(req.body, function(err, doc){
+		console.log(doc);
+		res.json(doc);
+	});
+});
+
+app.get('/dashboard', function(req, res){
+	console.log('I receive a GET request');
+})
 
 app.get('/contactsList', function(req, res){
 	console.log('I receive a GET request');
