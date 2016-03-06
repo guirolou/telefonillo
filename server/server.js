@@ -7,6 +7,55 @@ var db = mongojs('telefonillo', ['proposals', 'people', 'consortiums']);
 app.use(express.static(__dirname + '/..'));
 app.use(bodyParser.json());
 
+app.get('/proposalsList', function(req, res){
+	console.log('I receive a GET request');
+	db.proposals.find({
+		consortium_id:mongojs.ObjectId('56db156a47e78d223ac9981e')
+	},
+	function(err,doc){
+		var proposals = getProposals(doc);
+		console.log(proposals);
+		res.json(proposals);
+	})
+})
+
+function getProposals(rawProposals){
+	var result = [];
+	for (var i = rawProposals.length - 1; i >= 0; i--) {
+		result.push({
+			title:rawProposals[i].title,
+			description:rawProposals[i].description,
+			youVoteAs: getMyVote(rawProposals[i].votes, '56db134f47e78d223ac9981d'),
+			votes:rawProposals[i].votes.length,
+			importantVotes: calculateVotesFor('isImportant', rawProposals[i].votes),
+			urgentVotes: calculateVotesFor('isUrgent', rawProposals[i].votes)
+		});
+	}
+	return result;
+}
+
+function getMyVote(votes, peopleId){
+	var result = null;
+	for (var i = votes.length - 1; i >= 0; i--) {
+		if (votes[i].people_id == peopleId) {
+			result = {
+				isUrgent: votes[i].isUrgent,
+				isImportant: votes[i].isImportant
+			};
+		}
+		break;
+	}
+	return result;
+}
+
+function calculateVotesFor(typeOfVote, votesForProposal){
+	var result = 0;
+	for (var i = votesForProposal.length - 1; i >= 0; i--) {
+		result += votesForProposal[i][typeOfVote] ? 1 : 0; 
+	}
+	return result;
+}
+
 app.post('/proposal', function(req, res){
 	console.log('I receive a POST request');
 	
@@ -15,11 +64,15 @@ app.post('/proposal', function(req, res){
 	newProposal.people_id = mongojs.ObjectId(req.body.people_id);
 	newProposal.votes[0].people_id = mongojs.ObjectId(req.body.votes[0].people_id);
 
-	db.proposals.insert(req.body, function(err, doc){
+	console.log(newProposal);
+	
+	db.proposals.insert(newProposal, function(err, doc){
 		console.log(doc);
 		res.json(doc);
 	});
 });
+
+
 
 app.get('/dashboard', function(req, res){
 	console.log('I receive a GET request');

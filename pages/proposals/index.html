@@ -1,0 +1,29 @@
+<div class="container" ng-controller="proposalsList">
+	<h1>Propuestas</h1>
+	<table class="table table-striped">
+		<thead>
+			<th>Titulo</th>
+			<th>Finaliza en</th>
+			<th>Votos</th>
+			<th>Acciones</th>
+		</thead>
+		<tr ng-repeat="proposal in proposalsList">
+			<td>
+				<h4 class="center-block">{{proposal.title}}</h4>
+				<label>Tu voto fue como </label>
+				<label ng-hide="{{proposal.youVoteAs.isImportant}}">no </label>
+				<label>Importante y </label>
+				<label ng-hide="{{proposal.youVoteAs.isUrgent}}">no </label>
+				<label>Urgente.</label>
+			</td>
+			<td>{{proposal.finishDate}}</td>
+			<td>
+				<label class="center-block">{{proposal.urgentVotes}} de {{proposal.votes}} voto/s como Urgente/s</label>
+				<label class="center-block">{{proposal.importantVotes}} de {{proposal.votes}} voto/s como Importante/s</label>
+			</td>
+			<td>
+				<button class="glyphicon glyphicon-transfer btn" title="Cambia tu Voto"></button>
+			</td>
+		</tr>
+	</table>
+</div>

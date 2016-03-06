@@ -1,0 +1,19 @@
+angular
+	.module('telefonillo', ['ngRoute'])
+	.config(function($routeProvider){
+		$routeProvider
+			.when('/',{
+				templateUrl:'/pages/dashboard.html'
+			})
+			.when('/newProposal',{
+				templateUrl:'/pages/proposals/new.html',
+				controller:'newProposal'
+			})
+			.when('/proposalsList',{
+				templateUrl:'/pages/proposals/index.html',
+				controller:'proposalsList'
+			})
+			.otherwise({
+				redirectTo:'/'
+			})
+	});

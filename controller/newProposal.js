@@ -22,7 +22,8 @@ angular
 							people_id: '56db134f47e78d223ac9981d',
 							isUrgent: $scope.proposal.isUrgent,
 							isImportant: $scope.proposal.isImportant
-						}]
+						}],
+						creationDate: new Date().toISOString()
 					};
 					$http
 						.post('/proposal', newProposal)
